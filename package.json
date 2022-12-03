@@ -33,7 +33,13 @@
           ]
         }
       }
-    }
+    },
+    "keybindings": [
+      {
+        "command": "lets-search.search",
+        "key": "ctrl+shift+g"
+      }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "yarn run compile",
