@@ -4,7 +4,7 @@ const SEARCH_COMMAND = 'lets-search.search';
 
 const getQuerySearchEngine = async (searchQuery: string) => {
   const settings = await vscode.workspace.getConfiguration();
-  const engines = settings['ls-search'].engines as Array<SearchEngine>;
+  const engines = settings['lets-search'].engines as Array<SearchEngine>;
 
   const querySplitted = searchQuery.split(':');
 

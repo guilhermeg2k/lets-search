@@ -20,10 +20,10 @@ You can set custom engines on the Extension Settings and use them as `${ENGINEKE
 
 ## Extension Settings
 
-- `ls-search.engines` List of search engines, default:
+- `lets-search.engines` List of search engines, default:
 
 ```json
-"ls-search.engines": [
+"lets-search.engines": [
     {
       "key": "g",
       "url": "https://www.google.com/search?q={%query%}"

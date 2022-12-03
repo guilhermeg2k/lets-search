@@ -33,9 +33,9 @@
       }
     ],
     "configuration": {
-      "title": "ls-search",
+      "title": "lets-search",
       "properties": {
-        "ls-search.engines": {
+        "lets-search.engines": {
           "type": "array",
           "default": [
             {
