@@ -8,7 +8,7 @@
 
 ## Features
 
-Quick search on the browser by the command `lets-search.search` or by a hotkey (the default it's `ctrl+shift+g`)
+Quick search on the browser by the command `lets-search.search` or by a hotkey (the default it's `ctrl+shift+q`)
 
 ![Search Screenshot](https://i.imgur.com/bFJOY5L.png)
 

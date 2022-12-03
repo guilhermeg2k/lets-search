@@ -49,7 +49,7 @@
     "keybindings": [
       {
         "command": "lets-search.search",
-        "key": "ctrl+shift+g"
+        "key": "ctrl+shift+q"
       }
     ]
   },
