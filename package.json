@@ -12,9 +12,6 @@
     "url": "https://github.com/guilhermeg2k/lets-search/issues"
   },
   "icon": "images/icon.png",
-  "galleryBanner": {
-    "theme": "dark"
-  },
   "engines": {
     "vscode": "^1.73.0"
   },
