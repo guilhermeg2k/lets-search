@@ -10,16 +10,30 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:lets-search.helloWorld"
+    "onCommand:lets-search.search"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "lets-search.helloWorld",
-        "title": "Hello World"
+        "command": "lets-search.search",
+        "title": "Lets Search: Search on the browser"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "ls-search",
+      "properties": {
+        "ls-search.engines": {
+          "type": "array",
+          "default": [
+            {
+              "key": "g",
+              "url": "https://www.google.com/search?q={%query%}"
+            }
+          ]
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "yarn run compile",

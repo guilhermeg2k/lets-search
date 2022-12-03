@@ -1,26 +1,62 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
+const SEARCH_COMMAND = 'lets-search.search';
+
+const getQuerySearchEngine = async (searchQuery: string) => {
+  const settings = await vscode.workspace.getConfiguration();
+  const engines = settings['ls-search'].engines as Array<SearchEngine>;
+
+  const querySplitted = searchQuery.split(':');
+
+  let engine = {
+    key: 'g',
+    url: 'https://www.google.com/search?q={%query%}',
+  } as SearchEngine;
+
+  if (querySplitted.length > 1) {
+    const queryEngineKey = querySplitted[0];
+    const engine = engines.find((engine) => engine.key === queryEngineKey);
+    if (engine) {
+      return engine;
+    }
+  }
+
+  return engine;
+};
+
+const getQueryWithoutEngineKey = (searchQuery: string) => {
+  let query = searchQuery;
+  const querySplitted = searchQuery.split(':');
+  if (querySplitted.length > 1) {
+    query = querySplitted.slice(1, querySplitted.length).join(':');
+  }
+  return query;
+};
+
+const buildSearchUrl = (engine: SearchEngine, query: string) => {
+  const searchUrl = engine.url.replace('{%query%}', query);
+  return searchUrl;
+};
+
+const searchCommandHandler = async () => {
+  const searchQuery = await vscode.window.showInputBox({
+    placeHolder: 'Search query',
+    prompt: 'Search on browser',
+  });
+
+  if (!searchQuery) {
+    vscode.window.showErrorMessage('Search query cannot be empty');
+    return;
+  }
+
+  const engine = await getQuerySearchEngine(searchQuery);
+  const query = getQueryWithoutEngineKey(searchQuery);
+  const searchUrl = buildSearchUrl(engine, query);
+
+  await vscode.env.openExternal(vscode.Uri.parse(searchUrl));
+};
+
 export function activate(context: vscode.ExtensionContext) {
-
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "lets-search" is now active!');
-
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('lets-search.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from lets-search!');
-	});
-
-	context.subscriptions.push(disposable);
+  const disposable = vscode.commands.registerCommand(SEARCH_COMMAND, searchCommandHandler);
+  context.subscriptions.push(disposable);
 }
-
-// This method is called when your extension is deactivated
-export function deactivate() {}
