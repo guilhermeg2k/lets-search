@@ -2,7 +2,7 @@
   "name": "lets-search",
   "displayName": "lets-search",
   "description": "Quick search on browser",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "publisher": "guilhermeg2k",
   "repository": {
     "type": "git",
