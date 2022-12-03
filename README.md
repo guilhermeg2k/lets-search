@@ -1,5 +1,11 @@
 # Lets Search
 
+<center>
+
+![Logo](https://i.imgur.com/FZWUwjy.png)
+
+</center>
+
 ## Features
 
 Quick search on the browser by the command `lets-search.search` or by a hotkey (the default it's `ctrl+shift+g`)
