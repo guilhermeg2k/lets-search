@@ -2,26 +2,43 @@ import * as vscode from 'vscode';
 
 const SEARCH_COMMAND = 'lets-search.search';
 
-const getQuerySearchEngine = async (searchQuery: string) => {
+const getDefaultEngine = async () => {
   const settings = await vscode.workspace.getConfiguration();
   const engines = settings['lets-search'].engines as Array<SearchEngine>;
+  console.log('🚀 ~ file: extension.ts:8 ~ getDefaultEngine ~ engines', engines);
 
-  const querySplitted = searchQuery.split(':');
+  const defaultEngine = engines.find((engine) => engine.default);
+  console.log('🚀 ~ file: extension.ts:10 ~ getDefaultEngine ~ defaultEngine', defaultEngine);
 
-  let engine = {
+  const engineFallBack = {
     key: 'g',
     url: 'https://www.google.com/search?q={%query%}',
   } as SearchEngine;
 
+  return defaultEngine || engineFallBack;
+};
+
+const getEngineByKey = async (key: string) => {
+  const settings = await vscode.workspace.getConfiguration();
+  const engines = settings['lets-search'].engines as Array<SearchEngine>;
+  const engine = engines.find((engine) => engine.key === key);
+
+  return engine;
+};
+
+const getEngineFromQuery = async (searchQuery: string) => {
+  const querySplitted = searchQuery.split(':');
+
   if (querySplitted.length > 1) {
     const queryEngineKey = querySplitted[0];
-    const engine = engines.find((engine) => engine.key === queryEngineKey);
+    const engine = await getEngineByKey(queryEngineKey);
     if (engine) {
       return engine;
     }
   }
 
-  return engine;
+  const defaultEngine = await getDefaultEngine();
+  return defaultEngine;
 };
 
 const getQueryWithoutEngineKey = (searchQuery: string) => {
@@ -30,6 +47,7 @@ const getQueryWithoutEngineKey = (searchQuery: string) => {
   if (querySplitted.length > 1) {
     query = querySplitted.slice(1, querySplitted.length).join(':');
   }
+
   return query;
 };
 
@@ -45,11 +63,10 @@ const searchCommandHandler = async () => {
   });
 
   if (!searchQuery) {
-    vscode.window.showErrorMessage('Search query cannot be empty');
     return;
   }
 
-  const engine = await getQuerySearchEngine(searchQuery);
+  const engine = await getEngineFromQuery(searchQuery);
   const query = getQueryWithoutEngineKey(searchQuery);
   const searchUrl = buildSearchUrl(engine, query);
 

@@ -20,13 +20,14 @@ You can set custom engines on the Extension Settings and use them as `${ENGINEKE
 
 ## Extension Settings
 
-- `lets-search.engines` List of search engines, default:
+- `lets-search.engines` List of search engines:
 
 ```json
 "lets-search.engines": [
     {
       "key": "g",
-      "url": "https://www.google.com/search?q={%query%}"
+      "url": "https://www.google.com/search?q={%query%}",
+      "default": true,
     }
   ]
 ```
